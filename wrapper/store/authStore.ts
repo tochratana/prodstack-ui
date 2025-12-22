@@ -1,5 +1,6 @@
-import { create } from "zustand";
-import { User } from "../types";
+import { create } from 'zustand';
+import { User } from '../types';
+
 
 interface AuthState {
   user: User | null;
@@ -12,19 +13,19 @@ interface AuthState {
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   token: null,
-
+  
   setAuth: (user, token) => {
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
     set({ user, token });
   },
-
+  
   logout: () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     set({ user: null, token: null });
   },
-
+  
   isAuthenticated: () => {
     const { token } = get();
     return !!token;
@@ -32,16 +33,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 }));
 
 // Initialize auth state from localStorage
-if (typeof window !== "undefined") {
-  const token = localStorage.getItem("token");
-  const userStr = localStorage.getItem("user");
-
+if (typeof window !== 'undefined') {
+  const token = localStorage.getItem('token');
+  const userStr = localStorage.getItem('user');
+  
   if (token && userStr) {
     try {
       const user = JSON.parse(userStr);
       useAuthStore.setState({ user, token });
     } catch (error) {
-      console.error("Failed to parse user from localStorage", error);
+      console.error('Failed to parse user from localStorage', error);
     }
   }
 }

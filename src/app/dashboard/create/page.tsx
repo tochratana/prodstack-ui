@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import ProtectedRoute from "@/components/ProtectedRoute";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Save, Image, X } from "lucide-react";
 import toast from "react-hot-toast";
 import { blogAPI } from "../../../../wrapper/lib/api";
 
@@ -13,14 +13,39 @@ function CreatePostContent() {
     title: "",
     content: "",
   });
+  const [images, setImages] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length + images.length > 10) {
+      toast.error("Maximum 10 images allowed");
+      return;
+    }
+
+    setImages([...images, ...files]);
+
+    files.forEach((file) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviews((prev) => [...prev, reader.result as string]);
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const removeImage = (index: number) => {
+    setImages(images.filter((_, i) => i !== index));
+    setPreviews(previews.filter((_, i) => i !== index));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      await blogAPI.createPost(formData);
+      await blogAPI.createPost(formData.title, formData.content, images);
       toast.success("Post created successfully!");
       router.push("/dashboard");
     } catch (err: any) {
@@ -76,13 +101,56 @@ function CreatePostContent() {
               onChange={(e) =>
                 setFormData({ ...formData, content: e.target.value })
               }
-              rows={15}
+              rows={10}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
               placeholder="Write your blog post content here..."
             />
             <p className="text-sm text-gray-500 mt-1">
               {formData.content.length} characters
             </p>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Images (Optional)
+            </label>
+            <div className="flex items-center space-x-4">
+              <label className="flex items-center space-x-2 px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-200 transition">
+                <Image className="w-5 h-5 text-gray-600" />
+                <span className="text-gray-700">Add Images</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
+              </label>
+              <span className="text-sm text-gray-500">
+                {images.length}/10 images
+              </span>
+            </div>
+
+            {previews.length > 0 && (
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+                {previews.map((preview, index) => (
+                  <div key={index} className="relative group">
+                    <img
+                      src={preview}
+                      alt={`Preview ${index + 1}`}
+                      className="w-full h-40 object-cover rounded-lg"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage(index)}
+                      className="absolute top-2 right-2 p-1 bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="flex items-center space-x-4">

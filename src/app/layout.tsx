@@ -1,39 +1,27 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { Toaster } from "react-hot-toast";
-import Navbar from "@/components/Navbar";
-import "./globals.css";
+'use client';
 
-const inter = Inter({ subsets: ["latin"] });
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '../../wrapper/store/authStore';
 
-export const metadata: Metadata = {
-  title: "BlogHub - Modern Blogging Platform",
-  description: "Share your thoughts with the world",
-};
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Navbar />
-        <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-          {children}
-        </main>
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 3000,
-            style: {
-              background: "#363636",
-              color: "#fff",
-            },
-          }}
-        />
-      </body>
-    </html>
-  );
+export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated());
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/login');
+    }
+  }, [isAuthenticated, router]);
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  return <>{children}</>;
 }

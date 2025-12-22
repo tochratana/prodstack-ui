@@ -50,14 +50,25 @@ export default function Navbar() {
                   <span>Dashboard</span>
                 </Link>
 
-                <div className="flex items-center space-x-3 px-4 py-2 bg-gray-100 rounded-lg">
-                  <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold">
-                    {/* {user?.username.charAt(0).toUpperCase()} */}
+                <Link
+                  href="/profile"
+                  className="flex items-center space-x-3 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
+                >
+                  <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold overflow-hidden">
+                    {user?.profileImage ? (
+                      <img
+                        src={`http://localhost:8080${user.profileImage}`}
+                        alt={user.username}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      user?.username.charAt(0).toUpperCase()
+                    )}
                   </div>
                   <span className="text-gray-700 font-medium">
                     {user?.username}
                   </span>
-                </div>
+                </Link>
 
                 <button
                   onClick={handleLogout}
