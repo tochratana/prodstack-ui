@@ -42,7 +42,11 @@ function EditPostContent() {
     setSaving(true);
 
     try {
-      await blogAPI.updatePost(Number(params.id), formData);
+      await blogAPI.updatePost(
+        Number(params.id),
+        formData.title,
+        formData.content
+      );
       toast.success("Post updated successfully!");
       router.push("/dashboard");
     } catch (err: any) {

@@ -1,27 +1,25 @@
-'use client';
+import type { Metadata } from "next";
+import "./globals.css";
+import Navbar from "@/components/Navbar";
+import { Toaster } from "react-hot-toast";
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuthStore } from '../../wrapper/store/authStore';
+export const metadata: Metadata = {
+  title: "Blog Platform",
+  description: "A modern blog platform",
+};
 
-
-export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated());
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push('/login');
-    }
-  }, [isAuthenticated, router]);
-
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
-
-  return <>{children}</>;
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>
+        <Navbar />
+        <main>{children}</main>
+        <Toaster position="top-right" />
+      </body>
+    </html>
+  );
 }

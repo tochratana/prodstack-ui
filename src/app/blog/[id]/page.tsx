@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
-import { BlogPost } from "../../../../wrapper/types";
+import { BlogPost, Comment } from "../../../../wrapper/types";
 import { useAuthStore } from "../../../../wrapper/store/authStore";
 import { blogAPI, getImageUrl } from "../../../../wrapper/lib/api";
 import Image from "next/image";
@@ -278,7 +278,7 @@ export default function BlogDetailPage() {
               >
                 <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold overflow-hidden flex-shrink-0">
                   {comment.userProfileImage ? (
-                    <Image
+                    <img
                       src={getImageUrl(comment.userProfileImage)}
                       alt={comment.username}
                       className="w-full h-full object-cover"
