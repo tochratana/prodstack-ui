@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
 import { Toaster } from "react-hot-toast";
+import { ClientWrapper } from "@/components/ClientWrapper";
 
 export const metadata: Metadata = {
   title: "Blog Platform",
@@ -14,10 +14,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        <Navbar />
-        <main>{children}</main>
+        <ClientWrapper>{children}</ClientWrapper>
         <Toaster position="top-right" />
       </body>
     </html>

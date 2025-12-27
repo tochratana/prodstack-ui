@@ -1,16 +1,14 @@
 "use client";
 
-import { Toaster } from "react-hot-toast";
-import { SettingsProvider } from "@/contexts/settingsContext";
+import { ThemeProvider } from "next-themes";
 import Navbar from "@/components/Navbar";
 import { ReactNode } from "react";
 
 export function ClientWrapper({ children }: { children: ReactNode }) {
   return (
-    <SettingsProvider>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <Navbar />
       <main>{children}</main>
-      <Toaster position="top-right" />
-    </SettingsProvider>
+    </ThemeProvider>
   );
 }
