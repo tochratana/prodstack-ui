@@ -58,7 +58,7 @@ jobs:
           yq '.frontend.image' charts/full-stack-app/values.yaml
 
           git config --global user.email "${{ secrets.USERNAME }}@users.noreply.github.com"
-          git config --global user.name "GitHub Actions"
+          git config --global user.name "fucking bro"
           git add .
           git commit -m "ci: update frontend image to ${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG }}"
           git push
