@@ -51,17 +51,18 @@ jobs:
           cd helm_repo
 
           echo "Updating frontend image in full-stack-app values..."
-          yq -i '.frontend.image.repository = "${{ secrets.DOCKER_USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}"' charts/full-stack-app/values.yaml
-          yq -i '.frontend.image.tag = "${{ env.TAG }}"' charts/full-stack-app/values.yaml
+          yq -i ".frontend.image.repository = \"${{ secrets.USERNAME }}/${{ env.DOCKER_IMAGE_NAME }}\"" charts/full-stack-app/values.yaml
+          yq -i ".frontend.image.tag = \"${{ env.TAG }}\"" charts/full-stack-app/values.yaml
 
           echo "Updated values:"
           yq '.frontend.image' charts/full-stack-app/values.yaml
 
-          git config --global user.email "${{ secrets.DOCKER_USERNAME }}@users.noreply.github.com"
+          git config --global user.email "${{ secrets.USERNAME }}@users.noreply.github.com"
           git config --global user.name "GitHub Actions"
           git add .
           git commit -m "ci: update frontend image to ${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG }}"
           git push
+
       - name: Clean up
         if: always()
         run: rm -rf helm_repo
