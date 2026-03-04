@@ -8,7 +8,7 @@ import {
   RegisterRequest,
 } from "../types";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://full-stack-dpl.tochratana.com/api";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const apiClient = axios.create({
   baseURL: API_URL,
