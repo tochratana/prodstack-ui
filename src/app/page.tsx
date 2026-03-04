@@ -40,7 +40,7 @@ export default function Home() {
       <div className="text-center mb-12">
         <h1 className="text-5xl font-bold dark:text-white text-black mb-4 flex items-center justify-center space-x-3">
           <BookOpen className="w-12 h-12 text-blue-600" />
-          <span>Latest Blog Posts</span>
+          <span>Latest Blog Posts will be show there</span>
         </h1>
         <p className="text-xl text-gray-600">
           Discover amazing stories from our community
