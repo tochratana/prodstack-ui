@@ -82,7 +82,7 @@ export default function Navbar() {
                   <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold overflow-hidden">
                     {user?.profileImage ? (
                       <img
-                        src={`http://localhost:8080${user.profileImage}`}
+                        src={`https://full-stack-dpl.tochratana.com${user.profileImage}`}
                         alt={user.username}
                         className="w-full h-full object-cover"
                       />
