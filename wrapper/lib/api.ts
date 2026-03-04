@@ -107,8 +107,8 @@ export const userAPI = {
   },
 };
 
-export const getImageUrl = (path?: string) => {
-  if (!path) return "/default-avatar.png";
-  if (path.startsWith("http")) return path;
-  return `${API_URL.replace("/api", "")}${path}`;
-};
+// export const getImageUrl = (path?: string) => {
+//   if (!path) return "/default-avatar.png";
+//   if (path.startsWith("http")) return path;
+//   return `${API_URL.replace("/api", "")}${path}`;
+// };
